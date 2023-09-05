@@ -4,11 +4,20 @@ services:
   catalogodb:
     image: mongo
 
+  comprasdb:
+    image: redis:alpine
+
   catalogo.api:
     image: ${DOCKER_REGISTRY-}catalogoapi
     build:
       context: .
       dockerfile: Catalogo.Api/Dockerfile
+
+  compras.api:
+    image: ${DOCKER_REGISTRY-}comprasapi
+    build:
+      context: .
+      dockerfile: Compras.Api/Dockerfile
    
 volumes:
   mongo_data:

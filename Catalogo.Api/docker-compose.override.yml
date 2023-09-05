@@ -9,7 +9,14 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  comprasdb:
+    container_name: comprasdb
+    restart: always
+    ports:
+      - "6379:6379"
+
   catalogo.api:
+    container_name: catalogo.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "DatabaseSettings:ConnectionString=mongodb://catalogodb:27017"
@@ -17,4 +24,14 @@ services:
       - catalogodb
     ports:
       - "8000:80"
+
+  compras.api:
+    container_name: compras.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "CacheSettings:ConnectionString=comprasdb:6379"
+    depends_on:
+      - comprasdb
+    ports:
+      - "8001:80"
 
