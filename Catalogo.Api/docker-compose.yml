@@ -7,6 +7,12 @@ services:
   comprasdb:
     image: redis:alpine
 
+  descontodb:
+    image: postgres:alpine
+
+  pgadmin:
+    image: dpage/pgadmin4
+
   catalogo.api:
     image: ${DOCKER_REGISTRY-}catalogoapi
     build:
@@ -19,5 +25,13 @@ services:
       context: .
       dockerfile: Compras.Api/Dockerfile
    
+  desconto.api:
+    image: ${DOCKER_REGISTRY-}descontoapi
+    build:
+      context: .
+      dockerfile: Desconto.Api/Dockerfile
+
 volumes:
   mongo_data:
+  postgres_data:
+  pgadmin_data:
