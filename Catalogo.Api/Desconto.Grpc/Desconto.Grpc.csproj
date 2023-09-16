@@ -4,16 +4,25 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>bd8aa7bc-5d05-408b-961c-16709f697b29</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\Desconto.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Dapper" Version="2.0.151" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
     <PackageReference Include="Npgsql" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <Protobuf Include="Protos\Desconto.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

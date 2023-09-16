@@ -53,6 +53,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=comprasdb:6379"
+      - "GrpcSettings:DescontoUrl=desconto.grpc"
     depends_on:
       - comprasdb
     ports:
@@ -68,3 +69,13 @@ services:
     ports:
       - "8002:80"
 
+
+  desconto.grpc:
+    container_name: desconto.grpc
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=Server=descontodb;Port=5432;Database=DescontoDb;User Id=admin;Password=admin1234"
+    depends_on:
+      - descontodb
+    ports:
+      - "8003:80"

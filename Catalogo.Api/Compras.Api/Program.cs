@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 RedisConfig.ConfigurarRedis(builder.Services, builder.Configuration);
-InjecaoDependenciaConfig.CriarInjecao(builder.Services);
+InjecaoDependenciaConfig.CriarInjecao(builder.Services, builder.Configuration);
 
 var app = builder.Build();
 

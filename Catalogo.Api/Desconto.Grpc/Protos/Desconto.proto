@@ -3,5 +3,40 @@ syntax = "proto3";
 option csharp_namespace = "Desconto.Grpc.Protos";
 
 service DescontoProtoService {
-	rpc GetDesconto()
+	rpc GetDesconto(GetDescontoRequest) returns (CupomModel);
+
+	rpc CreateDesconto(CreateDescontoRequest) returns (CupomModel);
+	rpc UpdateDesconto(UpdateDescontoRequest) returns (CupomModel);
+	rpc DeleteDesconto(DeleteDescontoRequest) returns (DeleteDescontoResponse);
 }
+
+message GetDescontoRequest {
+	string nomeProduto = 1;
+}
+
+message CupomModel {
+	int32 id = 1;
+	string nomeProduto = 2;
+	string descricao = 3;
+	int32 valor = 4;
+}
+
+message CreateDescontoRequest {
+	CupomModel cupom = 1;
+}
+
+message UpdateDescontoRequest {
+	CupomModel cupom = 1;
+}
+
+message DeleteDescontoRequest {
+	string nomeProduto = 1;
+}
+
+message DeleteDescontoResponse {
+	bool success = 1;
+}
+
+
+
+

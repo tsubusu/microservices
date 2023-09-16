@@ -1,4 +1,5 @@
 using Compras.Api.Entities;
+using Compras.Api.GrpcServices;
 using Compras.Api.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,12 @@ namespace Compras.Api.Controllers
     public class CarrinhoCompraController : ControllerBase
     {
         private readonly ICarrinhoCompraRepository _carrinhoComprasRepository;
+        private readonly DescontoGrpcService _descontoGrpcService;
 
-        public CarrinhoCompraController(ICarrinhoCompraRepository carrinhoComprasRepository)
+        public CarrinhoCompraController(ICarrinhoCompraRepository carrinhoComprasRepository, DescontoGrpcService descontoGrpcService)
         {
             _carrinhoComprasRepository = carrinhoComprasRepository;
+            _descontoGrpcService = descontoGrpcService;
         }
 
         [HttpGet("nomeUsuario", Name = "ObterCarrinhoCompra")]
@@ -28,6 +31,12 @@ namespace Compras.Api.Controllers
         [ProducesResponseType(typeof(CarrinhoCompra), StatusCodes.Status200OK, Type = typeof(CarrinhoCompra))]
         public async Task<ActionResult<CarrinhoCompra>> AtualizarProduto(CarrinhoCompra carrinhoCompra)
         {
+            foreach (var item in carrinhoCompra.Itens)
+            {
+                var cupom = await _descontoGrpcService.GetDesconto(item.NomeProduto);
+                item.Preco -= cupom.Valor;
+            }
+
             return Ok(await _carrinhoComprasRepository.AtualizarCarrinhoCompra(carrinhoCompra));
         }
 
